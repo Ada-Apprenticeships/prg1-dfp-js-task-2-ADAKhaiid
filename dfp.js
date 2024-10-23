@@ -1,7 +1,15 @@
 const fs = require('fs');
 
-function parseFile (indata, outdata, delimiter = ';') {
+// Our neccessary files for this task:
+const inputFile = "datafile.csv"
+const outputFile = "outputFile,csv"
+const reviewSummarised = {}
 
+function parseFile (indata, outdata, delimiter = ';') {
+  // Delete any exisitng outputfile
+  if (fs.existsSync(outdata)) {
+    fs.unlinkSync(outdata);
+  }
 }
 
 
