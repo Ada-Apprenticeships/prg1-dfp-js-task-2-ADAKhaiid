@@ -1,16 +1,17 @@
 const fs = require('fs');
 
-// Neccessary files for this task:
+// The neccessary files for this task
 const inputFile = "datafile.csv"
 const outputFile = "outputFile,csv"
 
+// Function to create the output file
 function parseFile (indata, outdata, delimiter = ';') {
-  // If input file does not exist:
+  // If input file does not exist
   if (!fs.existsSync(indata)){
-    return -1
+    return -1;
   }
 
-  // Delete any exisitng outputfile
+  // Delete any exisiting output file
   if (fs.existsSync(outdata)) {
     fs.unlinkSync(outdata);
   }
@@ -25,17 +26,12 @@ function parseFile (indata, outdata, delimiter = ';') {
   let totalReviews = 0 
   // Going through each review:
   for (let line of lines) {
-    const trimmed = line.trim();
+    // Trims the line of white spaces and splits the Review and Positive/Negative remark:
+    const trimmedLine = line.trim().split(delimiter);
+    // Creates individual outputline in order of Positive/Negative;The review in 20 characters per line
+    const outputLine = `${trimmedLine[1].trim()}${delimiter}${trimmedLine[0].trim().substring(0,20)}\n`
    
-    // Split the Review and Positive/Negative remark:
-    const Element = trimmed.split(delimiter);
-    // Taking the first 20 characters of the review
-    const review = Element[0].trim().substring(0,20)
-    // Taking the postivie/negative of the review 
-    const posOrNeg = Element[1].trim()
-    // Creating the Output switching the order:
-    const outputLine = `${posOrNeg}${delimiter}${review}\n`
-    // Outputting to a file
+    // Outputting the file
     fs.appendFileSync(outdata, outputLine);
     // Adding to total reviews after each review
     totalReviews++
@@ -43,7 +39,7 @@ function parseFile (indata, outdata, delimiter = ';') {
   return totalReviews
 }
 
-parseFile(inputFile, outputFile)
+console.log(parseFile(inputFile, outputFile))
 
 // Leave this code here for the automated tests
 module.exports = {
